@@ -40,6 +40,30 @@
   - type: ExplosionResistance
     damageCoefficient: 0.9
 
+- type: entity
+  parent: [ ClothingOuterArmorBase ]
+  id: ClothingTestFlat
+  name: Steel Plate Armor
+  description: Piece of steel plate armor. Really heavy and resistant. Dont mind if it looks like a mercenary web vest
+  components:
+  - type: Sprite
+    sprite: Clothing/OuterClothing/Vests/mercwebvest.rsi
+  - type: Clothing
+    sprite: Clothing/OuterClothing/Vests/mercwebvest.rsi
+  - type: Armor
+    modifiers:
+      FlatReduction:
+        Blunt: 8
+        Slash: 16
+        Piercing: 11
+        Heat: 1.8
+  - type: ExplosionResistance
+    damageCoefficient: 0.65
+  - type: ClothingSpeedModifier
+    walkModifier: 0.97
+    sprintModifier: 0.8
+  - type: HeldSpeedModifier
+
 #Detective's vest
 - type: entity
   parent: [ClothingOuterArmorBase, BaseRestrictedContraband]
