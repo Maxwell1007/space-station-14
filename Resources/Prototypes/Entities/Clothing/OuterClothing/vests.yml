@@ -52,7 +52,7 @@
     sprite: Clothing/OuterClothing/Vests/mercwebvest.rsi
   - type: Armor
     modifiers:
-      FlatReduction:
+      flatReductions:
         Blunt: 8
         Slash: 16
         Piercing: 11
