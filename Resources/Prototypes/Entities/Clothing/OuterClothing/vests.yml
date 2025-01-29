@@ -56,11 +56,11 @@
         Blunt: 8
         Slash: 16
         Piercing: 11
-        Heat: 1.8
+        Heat: 2
   - type: ExplosionResistance
     damageCoefficient: 0.65
   - type: ClothingSpeedModifier
-    walkModifier: 0.97
+    walkModifier: 0.95
     sprintModifier: 0.8
   - type: HeldSpeedModifier
 
