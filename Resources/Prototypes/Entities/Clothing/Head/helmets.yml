@@ -72,6 +72,31 @@
   - type: ExplosionResistance
     damageCoefficient: 0.75
 
+- type: entity
+  parent: [ClothingHeadBase, BaseRestrictedContraband]
+  id: HelmTest
+  name: Steel Plate Helm
+  description: An extremely robust helmet, commonly used by medieval knights. Dont mind if it looks like a SWAT helmet
+  components:
+  - type: Sprite
+    sprite: Clothing/Head/Helmets/swat.rsi
+  - type: Clothing
+    sprite: Clothing/Head/Helmets/swat.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.98
+        Slash: 0.9
+        Piercing: 0.94
+        Heat: 0.98
+  flatReductions:
+    Blunt: 2
+    Slash: 4
+    Piercing: 3
+    Heat: 0.5
+- type: ExplosionResistance
+  damageCoefficient: 0.85
+
 #Syndicate SWAT Helmet
 - type: entity
   parent: ClothingHeadHelmetSwat
