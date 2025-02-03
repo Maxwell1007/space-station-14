@@ -1,6 +1,6 @@
 ﻿using Robust.Shared.Prototypes;
 
- namespace Content.Shared.Attributes
+namespace Content.Shared.Attributes.Prototypes
 {
     [Prototype("attributeType")]
     public sealed partial class AttributeTypePrototype : IPrototype
@@ -13,6 +13,8 @@
 
         [ViewVariables(VVAccess.ReadOnly)]
         public string LocalizedName => Loc.GetString(Name);
+
+
 
     }
 }

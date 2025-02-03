@@ -21,10 +21,10 @@ namespace Content.Shared.Attributes
     public sealed partial class AttributesSpecifier : IEquatable<AttributesSpecifier>
     {
         // These exist solely so the wiki works. Please do not touch them or use them.
-        [JsonPropertyName("Atypes")]
-        [DataField("Atypes", customTypeSerializer: typeof(PrototypeIdDictionarySerializer<FixedPoint2, AttributeTypePrototype>))]
+        [JsonPropertyName("types")]
+        [DataField("types", customTypeSerializer: typeof(PrototypeIdDictionarySerializer<FixedPoint2, AttributeTypePrototype>))]
         [UsedImplicitly]
-        private Dictionary<string,FixedPoint2>? _attributeTypeDictionary; /// Пахнет подвохом, дамаг захардкожен в движок, а вот аттрибуты - нет
+        private Dictionary<string,FixedPoint2>? _attributeTypeDictionary;
 
         /// <summary>
         ///     Main DamageSpecifier dictionary. Most DamageSpecifier functions exist to somehow modifying this.
@@ -82,9 +82,9 @@ namespace Content.Shared.Attributes
         /// <summary>
         ///     Constructor that takes another DamageSpecifier instance and copies it.
         /// </summary>
-        public AttributesSpecifier(AttributesSpecifier damageSpec)
+        public AttributesSpecifier(AttributesSpecifier attributeSpec)
         {
-            AttributeDict = new(damageSpec.AttributeDict);
+            AttributeDict = new(attributeSpec.AttributeDict);
         }
 
         /// <summary>
@@ -104,62 +104,62 @@ namespace Content.Shared.Attributes
         ///     Only applies resistance to a damage type if it is dealing damage, not healing.
         ///     This will never convert damage into healing.
         /// </remarks>
-        public static AttributesSpecifier ApplyModifierSet(AttributesSpecifier damageSpec, AttributeModifierSet modifierSet)
+        public static AttributesSpecifier ApplyModifierSet(AttributesSpecifier attributeSpec, AttributeModifierSet attributemodifierSet)
         {
             // Make a copy of the given data. Don't modify the one passed to this function. I did this before, and weapons became
             // duller as you hit walls. Neat, but not FixedPoint2ended. And confusing, when you realize your fists don't work no
             // more cause they're just bloody stumps.
-            AttributesSpecifier newDamage = new();
-            newDamage.AttributeDict.EnsureCapacity(damageSpec.AttributeDict.Count);
+            AttributesSpecifier newAttribute = new();
+            newAttribute.AttributeDict.EnsureCapacity(attributeSpec.AttributeDict.Count);
 
-            foreach (var (key, value) in damageSpec.AttributeDict)
+            foreach (var (key, value) in attributeSpec.AttributeDict)
             {
                 if (value == 0)
                     continue;
 
                 if (value < 0)
                 {
-                    newDamage.AttributeDict[key] = value;
+                    newAttribute.AttributeDict[key] = value;
                     continue;
                 }
 
                 float newValue = value.Float();
 
-                if (modifierSet.AFlatReduction.TryGetValue(key, out var Areduction))
+                if (attributemodifierSet.AFlatReduction.TryGetValue(key, out var Areduction))
                     newValue = Math.Max(0f, newValue - Areduction); // flat reductions can't heal you
 
-                if (modifierSet.ACoefficients.TryGetValue(key, out var Acoefficient))
+                if (attributemodifierSet.ACoefficients.TryGetValue(key, out var Acoefficient))
                     newValue *= Acoefficient; // coefficients can heal you, e.g. cauterizing bleeding
 
                 if(newValue != 0)
-                    newDamage.AttributeDict[key] = FixedPoint2.New(newValue);
+                    newAttribute.AttributeDict[key] = FixedPoint2.New(newValue);
             }
 
-            return newDamage;
+            return newAttribute;
         }
 
         /// <summary>
         ///     Reduce (or increase) damages by applying multiple modifier sets.
         /// </summary>
-        /// <param name="damageSpec"></param>
+        /// <param name="attributeSpec"></param>
         /// <param name="modifierSets"></param>
         /// <returns></returns>
-        public static AttributesSpecifier ApplyModifierSets(AttributesSpecifier damageSpec, IEnumerable<AttributeModifierSet> modifierSets)
+        public static AttributesSpecifier ApplyModifierSets(AttributesSpecifier attributeSpec, IEnumerable<AttributeModifierSet> modifierSets)
         {
             bool any = false;
-            AttributesSpecifier newDamage = damageSpec;
+            AttributesSpecifier newAttribute = attributeSpec;
             foreach (var set in modifierSets)
             {
                 // This creates a new damageSpec for each modifier when we really onlt need to create one.
                 // This is quite inefficient, but hopefully this shouldn't ever be called frequently.
-                newDamage = ApplyModifierSet(newDamage, set);
+                newAttribute = ApplyModifierSet(newAttribute, set);
                 any = true;
             }
 
             if (!any)
-                newDamage = new AttributesSpecifier(damageSpec);
+                newAttribute = new AttributesSpecifier(attributeSpec);
 
-            return newDamage;
+            return newAttribute;
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace Content.Shared.Attributes
         ///     adding any new damage types.
         /// </summary>
         /// <remarks>
-        ///     This is used for <see cref="DamageableComponent"/>s, such that only "supported" damage types are
+        ///     This is used for <see cref="AttributableComponent"/>s, such that only "supported" damage types are
         ///     actually added to the component. In most other instances, you can just use the addition operator.
         /// </remarks>
         public void ExclusiveAdd(AttributesSpecifier other)
@@ -251,41 +251,41 @@ namespace Content.Shared.Attributes
         /// </remarks>
 
         #region Operators
-        public static AttributesSpecifier operator *(AttributesSpecifier damageSpec, FixedPoint2 factor)
+        public static AttributesSpecifier operator *(AttributesSpecifier attributeSpec, FixedPoint2 factor)
         {
-            AttributesSpecifier newDamage = new();
-            foreach (var entry in damageSpec.AttributeDict)
+            AttributesSpecifier newAttribute = new();
+            foreach (var entry in attributeSpec.AttributeDict)
             {
-                newDamage.AttributeDict.Add(entry.Key, entry.Value * factor);
+                newAttribute.AttributeDict.Add(entry.Key, entry.Value * factor);
             }
-            return newDamage;
+            return newAttribute;
         }
 
-        public static AttributesSpecifier operator *(AttributesSpecifier damageSpec, float factor)
+        public static AttributesSpecifier operator *(AttributesSpecifier attributeSpec, float factor)
         {
-            AttributesSpecifier newDamage = new();
-            foreach (var entry in damageSpec.AttributeDict)
+            AttributesSpecifier newAttribute = new();
+            foreach (var entry in attributeSpec.AttributeDict)
             {
-                newDamage.AttributeDict.Add(entry.Key, entry.Value * factor);
+                newAttribute.AttributeDict.Add(entry.Key, entry.Value * factor);
             }
-            return newDamage;
+            return newAttribute;
         }
 
-        public static AttributesSpecifier operator /(AttributesSpecifier damageSpec, FixedPoint2 factor)
+        public static AttributesSpecifier operator /(AttributesSpecifier AttributeSpec, FixedPoint2 factor)
         {
             AttributesSpecifier newDamage = new();
-            foreach (var entry in damageSpec.AttributeDict)
+            foreach (var entry in AttributeSpec.AttributeDict)
             {
                 newDamage.AttributeDict.Add(entry.Key, entry.Value / factor);
             }
             return newDamage;
         }
 
-        public static AttributesSpecifier operator /(AttributesSpecifier damageSpec, float factor)
+        public static AttributesSpecifier operator /(AttributesSpecifier AttributeSpec, float factor)
         {
             AttributesSpecifier newDamage = new();
 
-            foreach (var entry in damageSpec.AttributeDict)
+            foreach (var entry in AttributeSpec.AttributeDict)
             {
                 newDamage.AttributeDict.Add(entry.Key, entry.Value / factor);
             }
