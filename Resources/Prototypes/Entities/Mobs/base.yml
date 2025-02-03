@@ -123,7 +123,7 @@
   abstract: true
   components:
     - type: Attributable
-      AttributesContainer: Sentient
+      AttributeContainer: Sentient
 
 
 # Used for mobs that can enter combat mode and can attack.

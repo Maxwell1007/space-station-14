@@ -13,7 +13,7 @@ namespace Content.Shared.Attributes
     public sealed partial class AttributableComponent : Component
     {
 
-        [DataField("AttributesContainer")]
+        [DataField("attributeContainer")]
         public ProtoId<AttributeContainerPrototype>? AttributeContainerID;
 
 

@@ -89,13 +89,13 @@
         Slash: 0.9
         Piercing: 0.94
         Heat: 0.98
-  flatReductions:
-    Blunt: 2
-    Slash: 4
-    Piercing: 3
-    Heat: 0.5
-- type: ExplosionResistance
-  damageCoefficient: 0.85
+      flatReductions:
+        Blunt: 2
+        Slash: 4
+        Piercing: 3
+        Heat: 0.5
+  - type: ExplosionResistance
+    damageCoefficient: 0.75
 
 #Syndicate SWAT Helmet
 - type: entity

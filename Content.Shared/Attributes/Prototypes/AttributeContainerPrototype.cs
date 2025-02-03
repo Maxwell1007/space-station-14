@@ -12,7 +12,7 @@ namespace Content.Shared.Attributes.Prototypes
     ///     and damage groups. Currently this is only used to specify what damage types a <see
     ///     cref="AttributableComponent"/> should support.
     /// </remarks>
-    [Prototype("AttributeContainer")]
+    [Prototype("attributeContainer")]
     [Serializable, NetSerializable]
     public sealed partial class AttributeContainerPrototype : IPrototype
     {
