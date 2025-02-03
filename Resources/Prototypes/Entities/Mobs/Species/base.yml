@@ -223,6 +223,15 @@
   id: BaseMobSpeciesOrganic
   abstract: true
   components:
+  - type: Attributable
+    attributes:
+      types:
+      Strength: 100
+      Dexterity: 100
+      Nevpot: 20
+      Body: 100
+      Mastery: 100
+      Wisdom: 100
   - type: Barotrauma
     damage:
       types:
