@@ -1,0 +1,16 @@
+﻿- type: AttributesContainer
+  id: Sentient
+  supportedTypes:
+  - Strength
+  - Dexterity
+  - Nevpot
+  - Body
+  - Mastery
+  - Wisdom
+
+- type: AttributesContainer
+  id: NonOrganic
+  supportedTypes:
+  - Strength
+  - Dexterity
+  - Body

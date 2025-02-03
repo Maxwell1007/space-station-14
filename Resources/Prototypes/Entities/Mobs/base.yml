@@ -117,6 +117,15 @@
     priority: 2
     lightningExplode: false
 
+- type: entity
+  parent: MobDamageable
+  id: MobAttributable
+  abstract: true
+  components:
+    - type: Attributable
+      AttributesContainer: Sentient
+
+
 # Used for mobs that can enter combat mode and can attack.
 - type: entity
   save: false
