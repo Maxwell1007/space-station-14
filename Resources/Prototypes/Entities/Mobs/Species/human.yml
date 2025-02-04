@@ -34,13 +34,14 @@
   name: Urist McHeaver
   components:
   - type: Attributable
-    attributeContainer: Sentient
-    Strength: 300
-    Dexterity: 300
-    Nevpot: 250
-    Body: 400
-    Mastery: 500
-    Wisdom: 500
+    attributes:
+      types:
+         Strength: 300
+         Dexterity: 300
+         Nevpot: 250
+         Body: 400
+         Mastery: 500
+         Wisdom: 500
   - type: Hunger
   - type: Thirst
   - type: Butcherable

@@ -165,10 +165,13 @@ namespace Content.Shared.Damage
                 }
             }
 
-            if (origin != null && TryComp<AttributableComponent>(origin, out var AttribComp))
+            if (TryComp<AttributableComponent>(uid, out var uidAttribComp))
             {
-                AttribComp.Attributes.GetStrength();
-                
+                damage /= uidAttribComp.Attributes.GetBody() * 100;
+            }
+            if (origin != null && TryComp<AttributableComponent>(origin, out var orAttribComp))
+            {
+                damage *= orAttribComp.Attributes.GetStrength() / 100;
             }
 
             // TODO DAMAGE PERFORMANCE

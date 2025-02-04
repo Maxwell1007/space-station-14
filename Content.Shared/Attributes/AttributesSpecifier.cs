@@ -46,7 +46,7 @@ namespace Content.Shared.Attributes
             if (AttributeDict.TryGetValue("Strength", out FixedPoint2 Strength))
                 return Strength;
             else
-                return FixedPoint2.Zero;
+                return 100;
         }
 
         public FixedPoint2 GetDexterity()
@@ -54,7 +54,7 @@ namespace Content.Shared.Attributes
             if (AttributeDict.TryGetValue("Dexterity", out FixedPoint2 Dexterity))
                 return Dexterity;
             else
-                return FixedPoint2.Zero;
+                return 100;
         }
 
         public FixedPoint2 GetNevpot()
@@ -62,7 +62,7 @@ namespace Content.Shared.Attributes
             if (AttributeDict.TryGetValue("Nevpot", out FixedPoint2 Nevpot))
                 return Nevpot;
             else
-                return FixedPoint2.Zero;
+                return 20;
         }
 
         public FixedPoint2 GetBody()
@@ -70,7 +70,7 @@ namespace Content.Shared.Attributes
             if (AttributeDict.TryGetValue("Body", out FixedPoint2 Body))
                 return Body;
             else
-                return FixedPoint2.Zero;
+                return 100;
         }
 
         public FixedPoint2 GetMastery()
@@ -78,7 +78,7 @@ namespace Content.Shared.Attributes
             if (AttributeDict.TryGetValue("Mastery", out FixedPoint2 Mastery))
                 return Mastery;
             else
-                return FixedPoint2.Zero;
+                return 100;
         }
 
         public FixedPoint2 GetWisdom()
@@ -86,7 +86,7 @@ namespace Content.Shared.Attributes
             if (AttributeDict.TryGetValue("Wisdom", out FixedPoint2 Wisdom))
                 return Wisdom;
             else
-                return FixedPoint2.Zero;
+                return 100;
         }
         public FixedPoint2 GetTotal()
         {
