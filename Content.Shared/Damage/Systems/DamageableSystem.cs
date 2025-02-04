@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Reflection.Metadata;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.FixedPoint;
 using Content.Shared.Inventory;
@@ -7,16 +8,17 @@ using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Radiation.Events;
 using Content.Shared.Rejuvenate;
-using Content.Shared.Attributes;
 using Robust.Shared.GameStates;
 using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
+using Content.Shared.Attributes;
 
 namespace Content.Shared.Damage
 {
     public sealed class DamageableSystem : EntitySystem
     {
+
         [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
         [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
         [Dependency] private readonly INetManager _netMan = default!;
@@ -165,14 +167,18 @@ namespace Content.Shared.Damage
                 }
             }
 
-            if (TryComp<AttributableComponent>(uid, out var uidAttribComp))
+            if (damage.AnyPositive())
             {
-                damage /= uidAttribComp.Attributes.GetBody() * 100;
+                if (TryComp<AttributableComponent>(uid, out var uidAttribComp))
+                {
+                   damage = AttributesSpecifier.ApplyBodyResist(damage, uidAttribComp.Attributes);
+                }
+                if (origin != null && TryComp<AttributableComponent>(origin, out var orAttribComp))
+                {
+                    damage = AttributesSpecifier.ApplyStrengthModifier(damage, orAttribComp.Attributes);
+                }
             }
-            if (origin != null && TryComp<AttributableComponent>(origin, out var orAttribComp))
-            {
-                damage *= orAttribComp.Attributes.GetStrength() / 100;
-            }
+
 
             // TODO DAMAGE PERFORMANCE
             // Consider using a local private field instead of creating a new dictionary here.

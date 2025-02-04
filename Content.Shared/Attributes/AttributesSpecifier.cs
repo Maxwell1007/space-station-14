@@ -1,5 +1,7 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Reflection.Metadata;
+using System.Text.Json.Serialization;
 using Content.Shared.Attributes.Prototypes;
+using Content.Shared.Damage;
 using Content.Shared.FixedPoint;
 using JetBrains.Annotations;
 using Robust.Shared.Prototypes;
@@ -33,6 +35,46 @@ namespace Content.Shared.Attributes
         [ViewVariables(VVAccess.ReadWrite)]
         [IncludeDataField(customTypeSerializer: typeof(AttributesSpecifierDictionarySerializer), readOnly: true)]
         public Dictionary<string, FixedPoint2> AttributeDict { get; set; } = new();
+
+        public static DamageSpecifier ApplyBodyResist(DamageSpecifier damage, AttributesSpecifier attributes)
+        {
+            foreach (var (key, value) in damage.DamageDict)
+            {
+                if (value == 0)
+                    continue;
+
+                if (value < 0)
+                {
+                    damage.DamageDict[key] = value;
+                    continue;
+                }
+
+
+                damage.DamageDict[key] = value * FixedPoint2.New(100.00) / attributes.GetBody();
+            }
+
+            return damage;
+        }
+
+        public static DamageSpecifier ApplyStrengthModifier(DamageSpecifier damage, AttributesSpecifier attributes)
+        {
+            foreach (var (key, value) in damage.DamageDict)
+            {
+                if (value == 0)
+                    continue;
+
+                if (value < 0)
+                {
+                    damage.DamageDict[key] = value;
+                    continue;
+                }
+
+
+                damage.DamageDict[key] = value * attributes.GetStrength() / FixedPoint2.New((100.00));
+            }
+
+            return damage;
+        }
 
         /// <summary>
         ///     Returns a Strength value
