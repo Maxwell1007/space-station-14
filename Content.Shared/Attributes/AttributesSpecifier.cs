@@ -35,12 +35,59 @@ namespace Content.Shared.Attributes
         public Dictionary<string, FixedPoint2> AttributeDict { get; set; } = new();
 
         /// <summary>
-        ///     Returns a sum of the damage values.
+        ///     Returns a Strength value
         /// </summary>
         /// <remarks>
         ///     Note that this being zero does not mean this damage has no effect. Healing in one type may cancel damage
         ///     in another. Consider using <see cref="AnyPositive"/> or <see cref="Empty"/> instead.
         /// </remarks>
+        public FixedPoint2 GetStrength()
+        {
+            if (AttributeDict.TryGetValue("Strength", out FixedPoint2 Strength))
+                return Strength;
+            else
+                return FixedPoint2.Zero;
+        }
+
+        public FixedPoint2 GetDexterity()
+        {
+            if (AttributeDict.TryGetValue("Dexterity", out FixedPoint2 Dexterity))
+                return Dexterity;
+            else
+                return FixedPoint2.Zero;
+        }
+
+        public FixedPoint2 GetNevpot()
+        {
+            if (AttributeDict.TryGetValue("Nevpot", out FixedPoint2 Nevpot))
+                return Nevpot;
+            else
+                return FixedPoint2.Zero;
+        }
+
+        public FixedPoint2 GetBody()
+        {
+            if (AttributeDict.TryGetValue("Body", out FixedPoint2 Body))
+                return Body;
+            else
+                return FixedPoint2.Zero;
+        }
+
+        public FixedPoint2 GetMastery()
+        {
+            if (AttributeDict.TryGetValue("Mastery", out FixedPoint2 Mastery))
+                return Mastery;
+            else
+                return FixedPoint2.Zero;
+        }
+
+        public FixedPoint2 GetWisdom()
+        {
+            if (AttributeDict.TryGetValue("Wisdom", out FixedPoint2 Wisdom))
+                return Wisdom;
+            else
+                return FixedPoint2.Zero;
+        }
         public FixedPoint2 GetTotal()
         {
             var total = FixedPoint2.Zero;

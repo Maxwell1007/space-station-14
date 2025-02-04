@@ -7,6 +7,7 @@ using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Radiation.Events;
 using Content.Shared.Rejuvenate;
+using Content.Shared.Attributes;
 using Robust.Shared.GameStates;
 using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
@@ -162,6 +163,12 @@ namespace Content.Shared.Damage
                 {
                     return damage;
                 }
+            }
+
+            if (origin != null && TryComp<AttributableComponent>(origin, out var AttribComp))
+            {
+                AttribComp.Attributes.GetStrength();
+                
             }
 
             // TODO DAMAGE PERFORMANCE
@@ -323,6 +330,7 @@ namespace Content.Shared.Damage
         ///     Owner.TryGetComponent() calls.
         /// </remarks>
         public readonly DamageableComponent Damageable;
+
 
         /// <summary>
         ///     The amount by which the damage has changed. If the damage was set directly to some number, this will be
