@@ -3,6 +3,7 @@ using System.Linq;
 using System.Numerics;
 using Content.Shared.ActionBlocker;
 using Content.Shared.Administration.Logs;
+using Content.Shared.Attributes;
 using Content.Shared.CombatMode;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
@@ -227,10 +228,29 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
         if (!Resolve(uid, ref component))
             return 0;
 
-        var ev = new GetMeleeAttackRateEvent(uid, component.AttackRate, 1, user);
-        RaiseLocalEvent(uid, ref ev);
+        if (TryComp<AttributableComponent>(user, out var uidAttribComp))
+        {
+            var ev = new GetMeleeAttackRateEvent(uid, component.AttackRate, 1, user);
+            RaiseLocalEvent(uid, ref ev);
+            float dex = (float)uidAttribComp.Attributes.GetDexterity();
+            if (dex <= 100)
+            {
+                dex *= 0.01f;
+            }
+            else
+            {
+                dex = dex * 0.001f + 0.9f;
+            }
 
-        return ev.Rate * ev.Multipliers;
+            return ev.Rate * ev.Multipliers * dex;
+        }
+        else
+        {
+            var ev = new GetMeleeAttackRateEvent(uid, component.AttackRate, 1, user);
+            RaiseLocalEvent(uid, ref ev);
+
+            return ev.Rate * ev.Multipliers;
+        }
     }
 
     public FixedPoint2 GetHeavyDamageModifier(EntityUid uid, EntityUid user, MeleeWeaponComponent? component = null)

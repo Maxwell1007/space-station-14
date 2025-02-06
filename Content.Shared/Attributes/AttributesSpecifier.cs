@@ -70,7 +70,7 @@ namespace Content.Shared.Attributes
                 }
 
 
-                damage.DamageDict[key] = value * attributes.GetStrength() / FixedPoint2.New((100.00));
+                damage.DamageDict[key] = value * attributes.GetStrength() / FixedPoint2.New(100.00);
             }
 
             return damage;
